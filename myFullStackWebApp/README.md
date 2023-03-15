@@ -1,10 +1,15 @@
 # Build-and-Dockerize-a-Full-stack-React-app-with-Node.js-MySQL-and-Nginx-for-reverse-proxy
 
+Prerequites:
+- Docker installed
+- node js installed
+- user added to docker group
+
 Run `npm i` inside the client directory
 
 Run `npm i` inside the server directory
 
-Run `docker-compose up --build` inside the mainn project directory
+Run `docker compose up -d` inside the main project directory
 
 Access the Adminer using route `http://localhost:8000/`.
 
