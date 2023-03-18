@@ -15,3 +15,7 @@ terraform.rc
 
 # Ignore crash logs
 crash.log
+
+# Ignore my private files
+/aws/
+aws-iam-authenticator.txt
