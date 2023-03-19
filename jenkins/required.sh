@@ -10,3 +10,10 @@ echo "deb [arch=amd64 signed-by=/usr/share/keyrings/docker-archive-keyring.gpg] 
 sudo apt-get update
 sudo apt-get -y install docker-ce docker-ce-cli containerd.io
 sudo usermod -aG docker ubuntu
+
+# Install nodejs and npm
+sudo apt update -y
+sudo apt install nodejs -y
+node -v
+sudo apt install npm -y
+npm -v

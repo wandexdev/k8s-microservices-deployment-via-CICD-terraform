@@ -1,27 +1,34 @@
 pipeline {
-
     agent any
-
+    tools {
+        maven 'Maven'
+    }
     stages {
-
-        stage("build") {
-
+        stage("build jar") {
             steps {
-                echo 'buiding the application...'
+                script {
+                    echo 'buiding the application...'
+                    sh 'mvn package'
+                }
             }
         }
-
-        stage("test") {
-
+        stage("build image") {
             steps {
-                echo 'testing the application...'
+                script {
+                    echo 'buiding the docker image'
+                    withCredentials([usernamePassword(credentialsId: 'dockerhub-wandexdev', passwordVariable: 'PASS', usernameVariable: 'USER')]) {
+                        sh 'docker build' -t wandexdev/wandek8s:1.0
+                        sh "echo $PASS | docker login -u $USER --password-stdin"
+                        sh 'docker push wandexdev/wandek8s:1.0'
+                    }
+                }
             }
-        }
-
+        }        
         stage("deploy") {
-
             steps {
-                echo 'deploy the application...'
+                script {
+                    echo 'deploy the application...'
+                }
             }
         }
     }
