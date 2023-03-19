@@ -1,0 +1,21 @@
+# The local .terraform directory would be ignored
+**/.terraform/*
+
+# All files with tf state suffix would be ignored
+*.tfstate
+*.tfstate.*
+
+# tf variables files contain sensitive info, would be ignored
+# Any user of these files should fill out the declared variables with their credentials
+*.tfvars 
+
+# Ignore CLI configuration files
+.terraformrc
+terraform.rc
+
+# Ignore crash logs
+crash.log
+
+# Ignore my private files
+/aws/
+aws-iam-authenticator.txt
