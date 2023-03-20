@@ -19,5 +19,3 @@ crash.log
 # Ignore my private files
 /aws/
 aws-iam-authenticator.txt
-
-terraform.tfstate.backup
