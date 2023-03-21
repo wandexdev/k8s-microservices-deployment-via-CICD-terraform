@@ -3,10 +3,14 @@
   metadata:
     name: grafana-ingress
     namespace: monitoring
-    #annotations:
-    #  nginx.ingress.kubernetes.io/rewrite-target: /
+    annotations:
+      kubernetes.io/ingress.class: nginx
+      cert-manager.io/cluster-issuer: letsencrypt-prod
   spec:
-    ingressClassName: nginx
+    tls:
+    - hosts:
+      - grafana.wandexdev.me
+      secretName: grafana-tls
     rules:
        -  host: grafana.wandexdev.me
           http:
