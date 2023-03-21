@@ -10,4 +10,4 @@
 - via jenkins:
 	- assemble the above steps in a stage called EKS in your ```Jenkinsfile```
 ## Visualization
-![plan graph](graph.svg)
+![plan graph](graph.jpeg)
