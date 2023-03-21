@@ -15,6 +15,6 @@
                 service:
                   name: front-end
                   port:
-                    number: 80
+                    number: 8079
               path: /
               pathType: Prefix
