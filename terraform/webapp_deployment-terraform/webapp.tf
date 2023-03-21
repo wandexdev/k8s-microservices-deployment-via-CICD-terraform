@@ -68,7 +68,7 @@ resource "kubernetes_service" "wandek8s-nodejs" {
     selector = {
       app = kubernetes_deployment.wandek8s-nodejs.spec.0.template.0.metadata.0.labels.app
     }
-    type = "LoadBalancer"
+    type = "ClusterIP"
     port {
       port        = 80
       target_port = 3000
