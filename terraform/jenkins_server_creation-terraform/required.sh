@@ -27,13 +27,17 @@ sudo usermod -aG docker ${USER}
 sudo apt install git
 git --version
 
-# aws CLI
+# install aws CLI
 apt-get update 
 apt-get install -y less curl unzip
 curl "https://awscli.amazonaws.com/awscli-exe-linux-x86_64.zip" -o "awscliv2.zip"
 unzip -q awscliv2.zip
 sudo ./aws/install
 aws --version
+
+# Install dot. for visualizaton of terraform plan
+sudo apt install graphviz -y
+
 
 #terraform
 sudo apt update && apt upgrade -y
@@ -44,15 +48,30 @@ sudo apt update -y
 sudo apt install terraform -y
 terraform -v 
 
-#kubectl
+# install kubectl
+sudo apt-get update
+sudo apt-get install -y apt-transport-https ca-certificates curl
+curl -fsSLo /usr/share/keyrings/kubernetes-archive-keyring.gpg https://packages.cloud.google.com/apt/doc/apt-key.gpg
+echo "deb [signed-by=/usr/share/keyrings/kubernetes-archive-keyring.gpg] https://apt.kubernetes.io/ kubernetes-xenial main" | sudo tee /etc/apt/sources.list.d/kubernetes.list
+sudo apt-get update -y
+sudo apt-get install -y kubectl
+kubectl version --client
 
-#eksctl
-#aws iam-authenticator
+# install eksctl
+curl --silent --location "https://github.com/weaveworks/eksctl/releases/latest/download/eksctl_$(uname -s)_amd64.tar.gz" | tar xz -C /tmp
+sudo mv /tmp/eksctl /usr/local/bin
+eksctl version
+
+# install aws-iam-authenticator
 curl -o aws-iam-authenticator
 https://amazon-eks.s3.us-west-2.amazonaws.com/1.21.2/2021-07-05/bin/linux/amd64/aws-iam-authenticator
 curl -o aws-iam-authenticator.sha256
 https://amazon-eks.s3.us-west-2.amazonaws.com/1.21.2/2021-07-05/bin/linux/amd64/aws-iam-authenticator.sha256
-
+openssl sha1 -sha256 aws-iam-authenticator
+chmod +x ./aws-iam-authenticator
+mkdir -p $HOME/bin && cp ./aws-iam-authenticator $HOME/bin/aws-iam-authenticator && export PATH=$PATH:$HOME/bin
+echo 'export PATH=$PATH:$HOME/bin' >> ~/.bashrc
+aws-iam-authenticator help
 
 # Install nodejs and npm
 sudo apt update -y
