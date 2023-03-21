@@ -224,10 +224,7 @@ spec:
         image: weaveworksdemos/catalogue-db:0.3.0
         env:
           - name: MYSQL_ROOT_PASSWORD
-            valueFrom:
-              secretKeyRef:
-                name: mysql-secret
-                key: password
+            value: fake_password
           - name: MYSQL_DATABASE
             value: socksdb
         ports:
@@ -313,11 +310,11 @@ metadata:
     name: front-end
   namespace: sock-shop
 spec:
-  type: LoadBalancer
+  type: ClusterIP
   ports:
   - port: 80
     targetPort: 8079
-    nodePort: 30001
+    # nodePort: 30001
   selector:
     name: front-end
 ---

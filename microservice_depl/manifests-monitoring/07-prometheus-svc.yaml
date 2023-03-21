@@ -10,7 +10,7 @@ metadata:
 spec:
   selector:
     app: prometheus
-  type: LoadBalancer
+  type: ClusterIP
   ports:
   - name: prometheus
     protocol: TCP

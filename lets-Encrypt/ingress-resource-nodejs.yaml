@@ -1,0 +1,20 @@
+  apiVersion: networking.k8s.io/v1
+  kind: Ingress
+  metadata:
+    name: sock-shop-ingress
+    namespace: sock-shop
+    #annotations:
+    #  nginx.ingress.kubernetes.io/rewrite-target: /
+  spec:
+    ingressClassName: nginx
+    rules:
+       -  host: sock-shop.wandexdev.me
+          http:
+            paths:
+            - backend:
+                service:
+                  name: front-end
+                  port:
+                    number: 8079
+              path: /
+              pathType: Prefix

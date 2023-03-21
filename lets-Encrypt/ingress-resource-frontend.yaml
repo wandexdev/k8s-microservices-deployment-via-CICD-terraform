@@ -4,7 +4,7 @@
     name: sock-shop-ingress
     namespace: sock-shop
     #annotations:
-    #  nginx.ingress.kubernetes.io/rewritw-target: /
+    #  nginx.ingress.kubernetes.io/rewrite-target: /
   spec:
     ingressClassName: nginx
     rules:
