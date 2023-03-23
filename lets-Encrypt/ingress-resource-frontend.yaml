@@ -9,8 +9,8 @@
   spec:
     tls:
     - hosts:
-      - sock-shop.wandexdev.me
-      secretName: front-end-tls
+      - "*.wandexdev.me"
+      secretName: tls-secret
     rules:
        -  host: sock-shop.wandexdev.me
           http:

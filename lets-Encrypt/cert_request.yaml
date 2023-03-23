@@ -1,0 +1,13 @@
+apiVersion: cert-manager.io/v1
+kind: Certificate
+metadata:
+  name: le-crt
+  namespace: cert-manager
+spec:
+  secretName: tls-secret
+  dnsNames:
+  - "*.wandexdev.me"
+  issuerRef:
+    name: letsencrypt-prod
+    kind: ClusterIssuer
+  commonName: "*.wandexdev.me"
