@@ -1,4 +1,4 @@
-## domains: sigh,
+## domains: 
 - grafana dashboard: [https://grafana.wandexdev.me](https://grafana.wandexdev.me)
 - socksshop deployment: [https://sock-shop.wandexdev.me](https://sock-shop.wandexdev.me)
 - prometheus dashboard: [https://promethus.wandexdev.me](https://promethus.wandexdev.me)
@@ -14,7 +14,7 @@
 - Cloud Watch (LOGGING)
 ![cloudwatch](images/k8s-cloudwatch-showing.png)
 ![cloudwatch](images/cloudwatchpie.png)
-- webapp
+- Nodejs-MongoDB webapp
 ![webapp](images/webapp.png)
 - EKS
 ![eks](images/eks.png)
