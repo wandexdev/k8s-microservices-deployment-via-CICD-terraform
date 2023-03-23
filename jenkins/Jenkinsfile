@@ -7,40 +7,90 @@ pipeline {
         AWS_DEFAULT_REGION = "us-east-1"
     }
     stages {
-          //stage("wandek8s-eks-cluster creation") {
-          //    steps {
-          //        script {
-          //            dir('terraform/eks_creation-terraform') {
-          //                sh "terraform init"
-          //                sh "terraform plan"
-          //                sh "terraform graph -type plan  | dot -Tsvg > graph.svg"
-          //                sh "terraform apply -auto-approve"
-          //            }
-          //        }
-          //    }
-          //}
-          //stage("Namespaces and deploy app") {
-          //    steps {
-          //        script {
-          //            dir('terraform/webapp_deployment-terraform') {
-          //                sh "terraform init"
-          //                sh "terraform plan"
-          //                sh "terraform graph -type plan  | dot -Tsvg > graph.svg"
-          //                sh "terraform apply -auto-approve"
-          //            }
-          //        }
-          //    }
-          // }
-          stage("sockshop deployment") {
-              steps {
-                  script {
-                      dir('microservice-depl') {
-                          sh "aws eks update-kubeconfig --name wandek8s-eks-cluster"
-                          sh "kubectl apply -f microservice-depl/manifests-application"
-                          sh "kubectl apply -f microservice-depl/manifests-monitoring"
+        //stage("wandek8s-eks-cluster creation") {
+        //    steps {
+        //        script {
+        //            dir('terraform/eks_creation-terraform') {
+        //                sh "terraform init"
+        //                sh "terraform plan"
+        //                sh "terraform graph -type plan  | dot -Tsvg > graph.svg"
+        //                sh "terraform apply -auto-approve"
+        //            }
+        //        }
+        //    }
+        //}
+        //stage("Namespaces and deploy app") {
+        //    steps {
+        //        script {
+        //            dir('terraform/webapp_deployment-terraform') {
+        //                sh "terraform init"
+        //                sh "terraform plan"
+        //                sh "terraform graph -type plan  | dot -Tsvg > graph.svg"
+        //                sh "terraform apply -auto-approve"
+        //            }
+        //        }
+        //    }
+        // }
+        stage("sockshop deployment") {
+            steps {
+                script {
+                    dir('microservice-depl') {
+                        sh "aws eks update-kubeconfig --name wandek8s-eks-cluster"
+                        sh "kubectl apply -f microservice-depl/manifests-application"
+                        sh "kubectl apply -f microservice-depl/manifests-monitoring"
                     }
                 }
             }
+        }
+        stage("Ingress-controller via Helm") {
+            steps {
+                script {
+                    dir('lets-Encrpt') {
+                        sh "helm repo add nginx-stable https://helm.nginx.com/stable"
+                        sh "helm repo update"
+                        sh "helm install nginx-ingress nginx-stable/nginx-ingress --set rbac.create=true --values values.yaml"
+                    }
+                }
+            }
+        } 
+        stage("Expose Services via Nginx-Ingress Controller") {
+            steps {
+                script {
+                    dir('lets-Encrpt') {
+                        sh "kubectl apply -f ingress-resource-frontend.yaml"
+                        sh "kubectl apply -f ingress-resource-grafana.yaml"
+                        sh "kubectl apply -f ingress-resource-nodejs.yaml"
+                        sh "kubectl apply -f ingress-resource-prometheus.yaml"
+                    }
+                }
+            }  
+        }
+        stage("Secure Ingress with Cert-Manger") {
+            steps {
+                script {
+                    dir('lets-Encrpt') {
+                        sh "kubectl create namespace cert-manager"
+                        sh "helm repo add jetstack https://charts.jetstack.io"
+                        sh "helm repo update"
+                        sh "helm install cert-manager jetstack/cert-manager --namespace cert-manager --version v1.10.1 --set installCRDs=true"
+                        sh "kubectl apply -f route53-secret.yaml"
+                        sh "kubectl apply -f production_issuer.yaml"
+                        sh "kubectl apply -f cert_request.yaml"
+                    }
+                }
+            }  
+        }
+        stage("Reapply ingress") {
+            steps {
+                script {
+                    dir('lets-Encrpt') {
+                        sh "kubectl apply -f ingress-resource-frontend.yaml"
+                        sh "kubectl apply -f ingress-resource-grafana.yaml"
+                        sh "kubectl apply -f ingress-resource-nodejs.yaml"
+                        sh "kubectl apply -f ingress-resource-prometheus.yaml"
+                    }
+                }
+            }  
         }
     }
 }
