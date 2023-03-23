@@ -7,38 +7,37 @@ pipeline {
         AWS_DEFAULT_REGION = "us-east-1"
     }
     stages {
-        //stage("wandek8s-eks-cluster creation") {
-        //    steps {
-        //        script {
-        //            dir('terraform/eks_creation-terraform') {
-        //                sh "terraform init"
-        //                sh "terraform plan"
-        //                sh "terraform graph -type plan  | dot -Tsvg > graph.svg"
-        //                sh "terraform apply -auto-approve"
-        //            }
-        //        }
-        //    }
-        //}
-        //stage("Namespaces and deploy app") {
-        //    steps {
-        //        script {
-        //            dir('terraform/webapp_deployment-terraform') {
-        //                sh "terraform init"
-        //                sh "terraform plan"
-        //                sh "terraform graph -type plan  | dot -Tsvg > graph.svg"
-        //                sh "terraform apply -auto-approve"
-        //            }
-        //        }
-        //    }
-        }
-        stage("sockshop deployment") {
-            steps {
-                script {
-                    dir('microservice-depl') {
-                        sh "aws eks update-kubeconfig --name wandek8s-eks-cluster"
-                        eksctl create cluster --name my-cluster
-                        sh "kubectl apply -f microservice-depl/manifests-application"
-                        sh "kubectl apply -f microservice-depl/manifests-monitoring"
+          //stage("wandek8s-eks-cluster creation") {
+          //    steps {
+          //        script {
+          //            dir('terraform/eks_creation-terraform') {
+          //                sh "terraform init"
+          //                sh "terraform plan"
+          //                sh "terraform graph -type plan  | dot -Tsvg > graph.svg"
+          //                sh "terraform apply -auto-approve"
+          //            }
+          //        }
+          //    }
+          //}
+          //stage("Namespaces and deploy app") {
+          //    steps {
+          //        script {
+          //            dir('terraform/webapp_deployment-terraform') {
+          //                sh "terraform init"
+          //                sh "terraform plan"
+          //                sh "terraform graph -type plan  | dot -Tsvg > graph.svg"
+          //                sh "terraform apply -auto-approve"
+          //            }
+          //        }
+          //    }
+          // }
+          stage("sockshop deployment") {
+              steps {
+                  script {
+                      dir('microservice-depl') {
+                          sh "aws eks update-kubeconfig --name wandek8s-eks-cluster"
+                          sh "kubectl apply -f microservice-depl/manifests-application"
+                          sh "kubectl apply -f microservice-depl/manifests-monitoring"
                     }
                 }
             }

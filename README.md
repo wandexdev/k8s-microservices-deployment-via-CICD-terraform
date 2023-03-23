@@ -7,10 +7,13 @@
 ## infra in pictures (one's i could get before the lets-encrpt saga)
 - socks-shop
 ![sock](images/sockshop.png)
-- grafana
+- grafana UI dashboard (MONITORING)
 ![grafana](images/grafana-dashboard.png)
-- Promethus
+- Promethus (METRICS) for the /metrics endpoint.
 ![prometheus](images/promethus.png)
+- Cloud Watch (LOGGING)
+![cloudwatch](images/k8s-cloudwatch-showing.png)
+![cloudwatch](images/cloudwatchpie.png)
 - webapp
 ![webapp](images/webapp.png)
 - EKS
